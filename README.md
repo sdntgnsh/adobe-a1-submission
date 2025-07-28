@@ -102,7 +102,7 @@ docker run --rm -v $(pwd)/input:/app/input:ro -v $(pwd)/output:/app/output --net
 The container will automatically process all PDFs in `/app/input` and place the resulting JSON files in `/app/output`.
 
 ## Project Structure
-
+```
 The repository contains only the essential files for the prediction pipeline:
 ├── model.xgb                  # The trained XGBoost model.
 ├── main.py                    # Main entry point for the container.
