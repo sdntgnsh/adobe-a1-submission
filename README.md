@@ -39,46 +39,45 @@ The workflow was as follows:
 2.  **LLM Prompting:** A powerful LLM (such as a model from the GPT or Gemini family) was prompted with the extracted text. The prompt was carefully engineered to ask the model to act as a document analysis expert.
 3.  **Structured JSON Output:** The core of the prompt instructed the LLM to return its analysis in a specific JSON format. A simplified version of the prompt looked like this:
     > "You are an expert at analysing documents. Your task is to analyse the document and extract titles, headings from it. Analyze it in the following format.
-
-Return ONLY this JSON format with nothing extra:
-{{
-    "title": "Document Title",
-    "outline": [
-        {{"level": "H1", "text": "Main Heading", "page": 0}},
-        {{"level": "H2", "text": "Sub Heading", "page": 1}},
-        {{"level": "H3", "text": "Sub-sub Heading", "page": 1}}
-    ]
-}}
-
-Rules:
-- Extract the main document title
-- Ignore any text that is not a heading and titles such as Preface, Copyright Notice. Only extract clear, meaningful headings.
-- Identify headings by hierarchy (H1 for main sections, H2 for subsections, H3 for sub-subsections)
-- Include the page number where each heading appears
-- For forms, include only the heading and not the detail headings that need to filled 
-
-ANALYSIS GUIDELINES:
-
-1. *Font Analysis*: Identify the most common font as body text, and flag larger or bolder fonts as headings (largest font on page = title)
-   *Parameters for judging*: font size, font style, text length, presence of numbering/punctuation, lexical features
-
-2. *Heading Characteristics*:
-   - Headings use *minimal punctuation*
-   - Headings are usually *one-liner texts*
-   - Headings often omit words. It's *common to drop initial articles* ("The," "A") if the heading remains clear
-   - Even mid-sentence articles or *"to be" verbs are often dropped*
-   - (H1 and title usually shorter and more general: 1-3 words) (H2 is longer than h1: 3-6 words)
-   - Higher-level headings are shorter and more general; lower-level headings are longer and more detailed.
-
-3. *Spacing and Alignment: Headings often have extra vertical space above them or different indentation. **More interval between lines: more likely it is a heading*
-
-4. *Lexical Features*:
-   - *H1*: Often single nouns or short noun phrases like "Introduction," "Overview," "Methods". Very short (sometimes one word)
-   - *H2/H3*: May start with action verbs in technical manuals (e.g., "Configure network settings") or be more descriptive phrases
-   - Lines starting with numbers or bullets might indicate section markers
-   - All-caps lines might be titles
-   - Concrete, descriptive language rather than generic labels
-"
+   >Return ONLY this JSON format with nothing extra:
+   >{{
+   >    "title": "Document Title",
+   >    "outline": [
+   >        {{"level": "H1", "text": "Main Heading", "page": 0}},
+   >        {{"level": "H2", "text": "Sub Heading", "page": 1}},
+   >        {{"level": "H3", "text": "Sub-sub Heading", "page": 1}}
+   >    ]
+   >}}
+   >
+   >Rules:
+   >- Extract the main document title
+   >- Ignore any text that is not a heading and titles such as Preface, Copyright Notice. Only extract clear, meaningful headings.
+   >- Identify headings by hierarchy (H1 for main sections, H2 for subsections, H3 for sub-subsections)
+   >- Include the page number where each heading appears
+   >- For forms, include only the heading and not the detail headings that need to filled 
+   >
+   >ANALYSIS GUIDELINES:
+   >
+   >1. *Font Analysis*: Identify the most common font as body text, and flag larger or bolder fonts as headings (largest font on page = title)
+   >   *Parameters for judging*: font size, font style, text length, presence of numbering/punctuation, lexical features
+   >
+   >2. *Heading Characteristics*:
+   >   - Headings use *minimal punctuation*
+   >   - Headings are usually *one-liner texts*
+   >   - Headings often omit words. It's *common to drop initial articles* ("The," "A") if the heading remains clear
+   >   - Even mid-sentence articles or *"to be" verbs are often dropped*
+   >   - (H1 and title usually shorter and more general: 1-3 words) (H2 is longer than h1: 3-6 words)
+   >   - Higher-level headings are shorter and more general; lower-level headings are longer and more detailed.
+   >
+   >3. *Spacing and Alignment: Headings often have extra vertical space above them or different indentation. **More interval between lines: more likely it is a heading*
+   >
+   >4. *Lexical Features*:
+   >   - *H1*: Often single nouns or short noun phrases like "Introduction," "Overview," "Methods". Very short (sometimes one word)
+   >   - *H2/H3*: May start with action verbs in technical manuals (e.g., "Configure network settings") or be more descriptive phrases
+   >   - Lines starting with numbers or bullets might indicate section markers
+   >   - All-caps lines might be titles
+   >   - Concrete, descriptive language rather than generic labels
+   >"
 4.  **Creating the Ground Truth:** The JSON file returned by the LLM was saved as the "ground truth" label for that PDF. This process was repeated for a diverse set of documents to build the `jsons` folder.
 5.  **Model Training:** The `build_dataset.py` script then used these LLM-generated JSON files to assign the correct labels to the features extracted from the corresponding PDFs, creating the final training dataset for the XGBoost model.
 
