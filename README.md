@@ -77,7 +77,6 @@ The workflow was as follows:
       >   - Lines starting with numbers or bullets might indicate section markers
       >   - All-caps lines might be titles
       >   - Concrete, descriptive language rather than generic labels
-      >"
 4.  **Creating the Ground Truth:** The JSON file returned by the LLM was saved as the "ground truth" label for that PDF. This process was repeated for a diverse set of documents to build the `jsons` folder.
 5.  **Model Training:** The `build_dataset.py` script then used these LLM-generated JSON files to assign the correct labels to the features extracted from the corresponding PDFs, creating the final training dataset for the XGBoost model.
 
@@ -91,7 +90,7 @@ The solution is fully containerized and expects to be run in an environment with
 
 To build the Docker image, navigate to the root of this repository and run:
 
-ocker build --platform linux/amd64 -t mysolutionname:somerandomidentifier .
+docker build --platform linux/amd64 -t mysolutionname:somerandomidentifier .
 
 
 ### Run Command
@@ -106,7 +105,6 @@ The container will automatically process all PDFs in `/app/input` and place the 
 
 The repository contains only the essential files for the prediction pipeline:
 
-.
 ├── model.xgb                  # The trained XGBoost model.
 ├── main.py                    # Main entry point for the container.
 ├── predict.py                 # Core prediction logic.
