@@ -1,0 +1,7 @@
+pymupdf
+pandas
+scikit-learn
+xgboost
+tqdm
+rapidfuzz
+pyarrow
