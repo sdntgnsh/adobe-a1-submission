@@ -1,4 +1,4 @@
-PDF Outline Extraction - Adobe Hackathon 2025
+##PDF Outline Extraction - Adobe Hackathon 2025
 
 This project is a solution for Challenge 1a, designed to extract structured outline data from PDF documents and output it into a standardized JSON format. The entire pipeline is containerized with Docker and optimized to meet the strict performance and resource constraints of the competition.
 Solution Architecture
