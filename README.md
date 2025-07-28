@@ -104,7 +104,6 @@ The container will automatically process all PDFs in `/app/input` and place the 
 ## Project Structure
 
 The repository contains only the essential files for the prediction pipeline:
-
 ├── model.xgb                  # The trained XGBoost model.
 ├── main.py                    # Main entry point for the container.
 ├── predict.py                 # Core prediction logic.
